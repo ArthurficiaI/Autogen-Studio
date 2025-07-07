@@ -38,7 +38,7 @@ def call_tests(testcase_index : int) -> str:
         result_raw = res.json().get("harnessOutput", "{}")
         result_json = json.loads(result_raw)
         if not result_json:
-            return "No data in harnessOutput – possible evaluation error or empty result"
+            raise ValueError("No data in harnessOutput – possible evaluation error or empty result")
         instance_id = next(iter(result_json))
         tests_status = result_json[instance_id]["tests_status"]
         fail_pass_results = tests_status["FAIL_TO_PASS"]
@@ -63,28 +63,11 @@ def call_tests(testcase_index : int) -> str:
             log.write(f"\n--- TESTCASE {testcase_index} ---\n")
             log.write(f"Error: {e}\n")
             print(f"Error in test case{testcase_index}: {e}")
+            return f"\n--- TESTCASE {testcase_index} ---\n" + f"Error: {e}\n" + f"Error in test case{testcase_index}: {e}"
 
 
-for i in range(9, 11):
+
+
+
+for i in range(1, 2):
     print(call_tests(i))
-
-def get_all_prompts():
-
-    for i in (0,100):
-        try:
-            response = requests.get(f"http://localhost:8081/task/index/{i}")
-            print(response)
-            if response.status_code != 200:
-                raise Exception(f"Invalid response: {response.status_code}")
-
-            testcase = response.json()
-            prompt = testcase["Problem_statement"]
-
-            with open("prompts.txt", "a",encoding="utf-8") as prompts:
-                prompts.write(f"Testcase {i}:\n")
-                prompts.write(f"{prompt}\n\n\n")
-
-        except Exception:
-            print("Error")
-
-
