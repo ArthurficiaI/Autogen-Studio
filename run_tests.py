@@ -1,6 +1,3 @@
-import custom_tools
-#docker run -p 8082:8080   -v "/mnt/c/Users/dafwe/OneDrive/Desktop/Unistuff/Master/2. Semester/Automated Software Engineering/Frameworks/AutogenStudio/repos:/repos"   -v /var/run/docker.sock:/var/run/docker.sock   paulroewer/swe-bench-lite-tester
-
 
 import os, requests,json
 LOG_FILE = "results.log"
